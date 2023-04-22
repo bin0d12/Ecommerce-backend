@@ -2,6 +2,8 @@ const Userschema = require("../modal/modal");
 let bcryptjs = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
+const secretKey = 'mysecretkey';
+
 const storeUserData = (req, res) => {
   console.log(req.body,  "reqsdfgh");
   let salt = bcryptjs.genSaltSync(10)
@@ -16,20 +18,22 @@ const storeUserData = (req, res) => {
   })
 };
 const getUserData = (req, res) => {
-  let employee1 = req.body.email;
-  // console.log(employee1, "emp");
-let data = Userschema.findById(employee1)
-console.log(data, "dattttttttttttttttttttaaaaaaaaaaa");
-Userschema.findById(employee1).then(response => {
-    // console.log(response, "responseeeeeeeeeeeeeeeeeee");
-     res.send({
-      response
-  });
-  }).catch(error => {
-      res.json({
-          message: "error in find indexxxx"
-      })
-  })
+  let userDetails = {
+    email: req.body.email,
+    password: req.body.password
+  }
+  const token = jwt.sign({userDetails}, secretKey)
+  console.log(token, "tokennnnnnn");
+  Userschema.findOne({email: userDetails.email, password: userDetails.password}).then(response => {
+    res.send({
+      // response
+        token
+    })
+}).catch(error => {
+    res.json({
+       token
+    })
+})
 }
 // const getUserData = (req, res) => {
 //   // console.log(req.body, "reqbodyyyyyyyyyyyyy");

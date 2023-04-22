@@ -5,6 +5,7 @@ const morgan = require('morgan')
 const dotEnv = require('dotenv')
 const routes = require('./routes/routes')
 const sellerRoutes = require('./routes/sellerModule/sellerRoutes')
+const productRoutes = require('./routes/productsModule/productDetailsRoutes')
 const bodyParser = require('body-parser')
 mongoose.connect('mongodb://localhost:27017/E-commerce')
 const db = mongoose.connection
@@ -29,6 +30,7 @@ app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json())
 app.use('/api', routes)
+app.use('/products', productRoutes)
 app.use('/sellerApi', sellerRoutes)
 
 app.listen(3005, () => {

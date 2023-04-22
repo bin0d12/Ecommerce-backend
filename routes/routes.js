@@ -3,5 +3,6 @@ const controller = require('../controller/controller')
 
 router.post('/userDataStore', controller.storeUserData)
 router.post('/authCheck', controller.getUserData)
-module.exports = router
 
+
+module.exports = router
